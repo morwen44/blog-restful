@@ -8,6 +8,9 @@ router.get("/", async (req, res) => {
     const search = req.query.search;
     const posts = await postsCases.getAll(search);
     res.status(200).json({ success: true, message: "Posts", data: posts });
+    if (!posts) {
+      throw createError(404, "Posts not found");
+    }
   } catch (error) {
     res
       .status(error.status || 500)

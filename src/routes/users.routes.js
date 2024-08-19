@@ -19,6 +19,19 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.post("/signup", async (req, res) => {
+  try {
+    const newUser = await usersCases.signUp(req.body);
+    res
+      .status(201)
+      .json({ success: true, message: "User created", data: newUser });
+  } catch (error) {
+    res
+      .status(error.status || 500)
+      .json({ success: false, message: error.message });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const newUser = await usersCases.create(req.body);
@@ -34,12 +47,9 @@ router.post("/", async (req, res) => {
 
 router.post("/auth/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const token = await usersCases.login(email, password);
-    if (!token) {
-      throw createError(401, "Invalid email or password");
-    }
-    res.json({ success: true, message: "Logged in", data: token });
+    const data = req.body;
+    const token = await usersCases.login(data);
+    res.json({ success: true, message: "Logged in", data: {token}});
   } catch (error) {
     res
       .status(error.status || 500)
