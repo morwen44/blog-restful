@@ -115,7 +115,7 @@ This repository contains a RESTful API service designed to function similarly to
   }
   ```
 
- - **GET /posts?search=hello**
+ - **GET /posts?search=example**
 
     Lists all posts. Supports filtering by title using a query parameter `search`.
 
