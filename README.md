@@ -31,7 +31,7 @@ This repository contains a RESTful API service designed to function similarly to
 2. **Navigate to the Project Directory**
 
     ```bash
-    cd blog-restfful
+    cd blog-restful
     ```
 
 3. **Install Dependencies**
