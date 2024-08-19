@@ -5,7 +5,8 @@ const postsCases = require("../usecases/posts.usecases");
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await postsCases.getAll();
+    const search = req.query.search;
+    const posts = await postsCases.getAll(search);
     res.status(200).json({ success: true, message: "Posts", data: posts });
   } catch (error) {
     res
@@ -13,6 +14,7 @@ router.get("/", async (req, res) => {
       .json({ success: false, message: error.message });
   }
 });
+
 
 router.post("/", async (req, res) => {
   try {

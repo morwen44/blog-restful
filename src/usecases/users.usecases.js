@@ -2,6 +2,10 @@ const User = require("../models/user.model");
 const createError = require("http-errors");
 
 async function create(data) {
+  const existingUser = await User.findOne({ email: data.email });
+  if (existingUser) {
+    throw createError(409, "Email already in use");
+  }
   const newUser = await User.create(data);
   return newUser;
 }
