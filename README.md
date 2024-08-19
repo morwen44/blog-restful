@@ -24,14 +24,14 @@ This repository contains a RESTful API service designed to function similarly to
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/dev-blog-service.git
+    git clone git@github.com:morwen44/blog-restful.git
     ```
   
 
 2. **Navigate to the Project Directory**
 
     ```bash
-    cd dev-blog-service
+    cd blog-restfful
     ```
 
 3. **Install Dependencies**
@@ -59,8 +59,6 @@ This repository contains a RESTful API service designed to function similarly to
     ```bash
     npm start
     ```
-
-    The server will run on `http://localhost:3000` by default.
 
 ## API Endpoints
 
