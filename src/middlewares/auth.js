@@ -1,16 +1,21 @@
 const createError = require("http-errors");
 const usersCases = require("../usecases/users.usecases");
+const jwt = require("../lib/jwt");
 
 async function auth(req, res, next) {
   const authorization = req.headers.authorization;
   const token = authorization?.replace("Bearer ", "");
 
+  console.log(token);
   try {
     if (!token) {
       throw createError(401, "Token is required in authorization header");
     }
     const payload = jwt.verify(token);
-    const user = await usersCases.findById(payload._id);
+    console.log(JSON.stringify(payload));
+    console.log(payload.id);
+    const user = await usersCases.getById(payload.id);
+    console.log(user);
     req.user = user;
     next();
   } catch (error) {

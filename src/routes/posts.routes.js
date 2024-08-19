@@ -21,9 +21,14 @@ router.get("/", async (req, res) => {
 
 
 router.post("/", auth, async (req, res) => {
-    
+    const postData = {
+        ...req.body,
+        user : req.user
+      };
+  console.log(postData);
   try {
-    const newPost = await postsCases.create(req.body);
+    const newPost = await postsCases.create(postData);
+
     res
       .status(201)
       .json({ success: true, message: "Post created", data: newPost });
