@@ -66,7 +66,7 @@ This repository contains a RESTful API service designed to function similarly to
 
 ### User Endpoints
 
-- **POST /user**
+- **POST /users/signup**
   
   Registers a new user.
   
@@ -81,7 +81,7 @@ This repository contains a RESTful API service designed to function similarly to
     ```  
 
 
-- **GET /user**
+- **GET /users/:id**
 
   Retrieves user information by ID.
 
@@ -115,7 +115,7 @@ This repository contains a RESTful API service designed to function similarly to
   }
   ```
 
- - **GET /posts**
+ - **GET /posts?search=hello**
 
     Lists all posts. Supports filtering by title using a query parameter `search`.
 
