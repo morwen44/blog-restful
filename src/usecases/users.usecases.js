@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const encryption = require("../lib/encryption");
+const jwt = require("../lib/jwt");
 const createError = require("http-errors");
 
 async function signUp(data) {
@@ -42,7 +43,9 @@ async function login(data) {
     throw createError(401, "Invalid email or password");
   }
 
-    return isPasswordValid;
+  const token = jwt.sign({ id: user._id });
+    
+  return token;
 
 }
 

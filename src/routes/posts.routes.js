@@ -2,6 +2,7 @@ const express = require("express");
 const createError = require("http-errors");
 const router = express.Router();
 const postsCases = require("../usecases/posts.usecases");
+const auth = require("../middlewares/auth");
 
 router.get("/", async (req, res) => {
   try {
@@ -19,7 +20,8 @@ router.get("/", async (req, res) => {
 });
 
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
+    
   try {
     const newPost = await postsCases.create(req.body);
     res
@@ -32,7 +34,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const data = req.body;
@@ -47,7 +49,7 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
     const deletedPost = await postsCases.deleteById(id);

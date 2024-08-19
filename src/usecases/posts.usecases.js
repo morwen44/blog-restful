@@ -3,12 +3,6 @@ const User = require("../models/user.model");
 const createError = require("http-errors");
 
 async function create(data) {
-  if (data.user) {
-    const user = await User.findById(data.user);
-    if (!user) {
-      throw createError(400, "Bad request");
-    }
-  }
   const newPost = await Post.create(data);
   return newPost;
 }
