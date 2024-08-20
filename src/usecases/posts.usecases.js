@@ -15,6 +15,10 @@ async function getAll(search) {
   }
 
   const posts = await Post.find(filter).populate("user");
+  console.log(filter)
+  if (!posts) {
+    throw createError(404, "Posts not found");
+  }
 
   return posts;
 }
