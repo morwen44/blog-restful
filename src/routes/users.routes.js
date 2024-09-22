@@ -22,15 +22,18 @@ router.get("/:id", async (req, res) => {
 router.post("/signup", async (req, res) => {
   try {
     const newUser = await usersCases.signUp(req.body);
-    res.status(201).json({ success: true, message: "User created", data: newUser });
+    res
+      .status(201)
+      .json({ success: true, message: "User created", data: newUser });
   } catch (error) {
- 
     console.error("Sign up error:", error.message);
 
-   
     res.status(error.status || 500).json({
       success: false,
-      message: error.status === 409 ? "Email already in use" : error.message || "An unexpected error occurred",
+      message:
+        error.status === 409
+          ? "Email already in use"
+          : error.message || "An unexpected error occurred",
     });
   }
 });
@@ -49,10 +52,11 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/auth/login", async (req, res) => {
+  console.log("Received data:", req.body);
   try {
     const data = req.body;
     const token = await usersCases.login(data);
-    res.json({ success: true, message: "Logged in", data: {token}});
+    res.json({ success: true, message: "Logged in", data: { token } });
   } catch (error) {
     res
       .status(error.status || 500)
