@@ -7,7 +7,7 @@ const auth = require("../middlewares/auth");
 router.get("/me", auth, async (req, res) => {
   try {
     const user = req.user;
-    console.log(user);
+    console.log("be"+user);
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     res
@@ -42,15 +42,22 @@ router.post("/signup", async (req, res) => {
   } catch (error) {
     console.error("Sign up error:", error.message);
 
+    let errorMessage;
+    if (error.status === 409) {
+      errorMessage = error.message.includes("Email")
+        ? "Email already in use"
+        : "Username already in use";
+    } else {
+      errorMessage = error.message || "An unexpected error occurred";
+    }
+
     res.status(error.status || 500).json({
       success: false,
-      message:
-        error.status === 409
-          ? "Email already in use"
-          : error.message || "An unexpected error occurred",
+      message: errorMessage,
     });
   }
 });
+
 
 router.post("/", async (req, res) => {
   try {

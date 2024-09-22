@@ -12,7 +12,7 @@ async function auth(req, res, next) {
     if (!token) {
       throw createError(401, "Token is required in authorization header");
     }
-    const payload = jwt.verify(token);
+    const payload = await jwt.verify(token);
     console.log(JSON.stringify(payload));
     console.log(payload.id);
     const user = await usersCases.getById(payload.id);

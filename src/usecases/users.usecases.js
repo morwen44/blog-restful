@@ -4,16 +4,19 @@ const jwt = require("../lib/jwt");
 const createError = require("http-errors");
 
 async function signUp(data) {
-  const existingUser = await User.findOne({ email: data.email });
-  if (existingUser) {
+  const existingEmail = await User.findOne({ email: data.email });
+  if (existingEmail) {
     throw createError(409, "Email already in use");
   }
 
- 
+  const existingUsername = await User.findOne({ username: data.username });
+  if (existingUsername) {
+    throw createError(409, "Username already in use");
+  }
+
   if (data.password !== data.confirmPassword) {
     throw createError(400, "Password and confirmation do not match");
   }
-
 
   if (!data.password) {
     throw createError(400, "Password is required");
@@ -21,13 +24,13 @@ async function signUp(data) {
 
   const passwordHash = await encryption.encrypt(data.password);
 
-
   data.password = passwordHash;
-  delete data.confirmPassword;  
+  delete data.confirmPassword;
 
   const newUser = await User.create(data);
   return newUser;
 }
+
 
 async function create(data) {
   const existingUser = await User.findOne({ email: data.email });
