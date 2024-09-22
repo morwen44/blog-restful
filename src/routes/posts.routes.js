@@ -16,12 +16,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-
 router.post("/", auth, async (req, res) => {
-    const postData = {
-        ...req.body,
-        user : req.user
-      };
+  const postData = {
+    ...req.body,
+    user: req.user,
+  };
   console.log(postData);
   try {
     const newPost = await postsCases.create(postData);
@@ -75,7 +74,6 @@ router.post("/:postId/comments", auth, async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    // Check if comments array exists, if not initialize it
     if (!post.comments) {
       post.comments = [];
     }
@@ -97,3 +95,5 @@ router.post("/:postId/comments", auth, async (req, res) => {
     res.status(500).json({ message: "Failed to add comment" });
   }
 });
+
+module.exports = router;
