@@ -3,6 +3,7 @@ const usersCases = require("../usecases/users.usecases");
 const jwt = require("../lib/jwt");
 
 async function auth(req, res, next) {
+  console.log("auth middleware");
   const authorization = req.headers.authorization;
   const token = authorization?.replace("Bearer ", "");
 
