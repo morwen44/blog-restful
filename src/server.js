@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const app = express();
 const postsRouter = require("./routes/posts.routes");
 const usersRouter = require("./routes/users.routes");
+require('dotenv').config();
 
 app.use(helmet());
 app.use(cors());

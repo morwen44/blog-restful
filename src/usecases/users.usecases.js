@@ -50,7 +50,7 @@ async function login(data) {
     throw createError(401, "Invalid email or password");
   }
 
-  const token = jwt.sign({ id: user._id });
+  const token = jwt.sign({ id: user._id }, "jrdfgdsfsdf");
 
   return token;
 }
