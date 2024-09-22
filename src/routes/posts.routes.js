@@ -82,7 +82,7 @@ router.post("/:postId/comments", auth, async (req, res) => {
    
     const newComment = {
       body, 
-      user: req.user._id, 
+      user: req.user,
       createdAt: new Date(),
     };
 
