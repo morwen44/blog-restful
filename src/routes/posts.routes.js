@@ -69,7 +69,7 @@ router.post("/:postId/comments", auth, async (req, res) => {
   const { body } = req.body;
 
   try {
-    const post = await Post.findById(postId);
+    const post = await post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
