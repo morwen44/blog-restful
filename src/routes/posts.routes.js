@@ -3,6 +3,7 @@ const createError = require("http-errors");
 const router = express.Router();
 const postsCases = require("../usecases/posts.usecases");
 const auth = require("../middlewares/auth");
+const Post = require("../models/post.model");
 
 router.get("/", async (req, res) => {
   try {
@@ -66,30 +67,30 @@ router.delete("/:id", auth, async (req, res) => {
 
 router.post("/:postId/comments", auth, async (req, res) => {
   const { postId } = req.params;
-  const { body } = req.body;
-console.log(postId);
-console.log(body);
+  const { body } = req.body; // Ensure body is correctly extracted from req.body
+
+  // Declare post here
+  let post;
 
   try {
-    const post = await post.findById(postId);
+    // Fetch the post using the postId
+    post = await Post.findById(postId); 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
-console.log(post);
 
-    if (!post.comments) {
-      post.comments = [];
-    }
-
+    // Create a new comment object
     const newComment = {
-      body,
-      user: req.user._id,
+      body, // Use the extracted body directly
+      user: req.user._id, // Use req.user set by auth middleware
       createdAt: new Date(),
     };
 
+    // Add the comment to the post's comments array
     post.comments.push(newComment);
-    await post.save();
+    await post.save(); // Save the post with the new comment
 
+    // Optionally, populate the user data for the new comment
     await post.populate("comments.user");
 
     res.status(201).json(newComment);
