@@ -65,4 +65,35 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+router.post("/:postId/comments", auth, async (req, res) => {
+  const { postId } = req.params;
+  const { body } = req.body;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check if comments array exists, if not initialize it
+    if (!post.comments) {
+      post.comments = [];
+    }
+
+    const newComment = {
+      body,
+      user: req.user._id,
+      createdAt: new Date(),
+    };
+
+    post.comments.push(newComment);
+    await post.save();
+
+    await post.populate("comments.user");
+
+    res.status(201).json(newComment);
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    res.status(500).json({ message: "Failed to add comment" });
+  }
+});
