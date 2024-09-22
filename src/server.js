@@ -4,7 +4,6 @@ const helmet = require("helmet");
 const app = express();
 const postsRouter = require("./routes/posts.routes");
 const usersRouter = require("./routes/users.routes");
-const commRouter = require("./routes/comments.routes");
 require('dotenv').config();
 
 app.use(helmet());
