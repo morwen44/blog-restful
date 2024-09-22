@@ -19,6 +19,15 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/me", auth, async (req, res) => {
+  try {
+    const user = req.user; 
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    res.status(error.status || 500).json({ success: false, message: error.message });
+  }
+});
+
 router.post("/signup", async (req, res) => {
   try {
     const newUser = await usersCases.signUp(req.body);

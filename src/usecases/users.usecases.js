@@ -36,6 +36,7 @@ async function create(data) {
 }
 
 async function login(data) {
+  console.log("Received data:", data);
   const user = await User.findOne({ email: data.email }).select("+password");
   if (!user) {
     throw createError(401, "Invalid email or password");
