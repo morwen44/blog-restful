@@ -67,12 +67,15 @@ router.delete("/:id", auth, async (req, res) => {
 router.post("/:postId/comments", auth, async (req, res) => {
   const { postId } = req.params;
   const { body } = req.body;
+console.log(postId);
+console.log(body);
 
   try {
     const post = await post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
+console.log(post);
 
     if (!post.comments) {
       post.comments = [];
