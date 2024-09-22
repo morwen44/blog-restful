@@ -9,6 +9,10 @@ async function signUp(data) {
     throw createError(409, "Email already in use");
   }
 
+  if (data.password !== data.confirmPassword) {
+    throw createError(400, "Password and confirmation do not match");
+  }
+
   if (!data.password) {
     throw createError(400, "Password is required");
   }
@@ -16,7 +20,7 @@ async function signUp(data) {
   const passwordHash = await encryption.encrypt(data.password);
 
   data.password = passwordHash;
-
+  delete data.confirmPassword;
 
   const newUser = await User.create(data);
   return newUser;
@@ -37,16 +41,18 @@ async function login(data) {
     throw createError(401, "Invalid email or password");
   }
 
-  const isPasswordValid = await encryption.compare(data.password, user.password);
+  const isPasswordValid = await encryption.compare(
+    data.password,
+    user.password
+  );
 
   if (!isPasswordValid) {
     throw createError(401, "Invalid email or password");
   }
 
   const token = jwt.sign({ id: user._id });
-    
-  return token;
 
+  return token;
 }
 
 async function getById(id) {
