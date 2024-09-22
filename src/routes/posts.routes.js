@@ -67,30 +67,31 @@ router.delete("/:id", auth, async (req, res) => {
 
 router.post("/:postId/comments", auth, async (req, res) => {
   const { postId } = req.params;
-  const { body } = req.body; // Ensure body is correctly extracted from req.body
+  const { body } = req.body; 
 
-  // Declare post here
+
   let post;
 
   try {
-    // Fetch the post using the postId
+
     post = await Post.findById(postId); 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    // Create a new comment object
+   
     const newComment = {
-      body, // Use the extracted body directly
-      user: req.user._id, // Use req.user set by auth middleware
+      body, 
+      user: req.user._id, 
       createdAt: new Date(),
     };
-    await post.populate("comments.user");
-    // Add the comment to the post's comments array
-    post.comments.push(newComment);
-    await post.save(); // Save the post with the new comment
 
-    // Optionally, populate the user data for the new comment
+    await post.populate("comments.user");
+  
+    post.comments.push(newComment);
+    await post.save(); // 
+
+  
     
 
     res.status(201).json(newComment);
