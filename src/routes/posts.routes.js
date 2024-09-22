@@ -85,13 +85,13 @@ router.post("/:postId/comments", auth, async (req, res) => {
       user: req.user._id, // Use req.user set by auth middleware
       createdAt: new Date(),
     };
-
+    await post.populate("comments.user");
     // Add the comment to the post's comments array
     post.comments.push(newComment);
     await post.save(); // Save the post with the new comment
 
     // Optionally, populate the user data for the new comment
-    await post.populate("comments.user");
+    
 
     res.status(201).json(newComment);
   } catch (error) {
