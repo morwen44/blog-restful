@@ -22,13 +22,16 @@ router.get("/:id", async (req, res) => {
 router.post("/signup", async (req, res) => {
   try {
     const newUser = await usersCases.signUp(req.body);
-    res
-      .status(201)
-      .json({ success: true, message: "User created", data: newUser });
+    res.status(201).json({ success: true, message: "User created", data: newUser });
   } catch (error) {
-    res
-      .status(error.status || 500)
-      .json({ success: false, message: error.message });
+ 
+    console.error("Sign up error:", error.message);
+
+   
+    res.status(error.status || 500).json({
+      success: false,
+      message: error.status === 409 ? "Email already in use" : error.message || "An unexpected error occurred",
+    });
   }
 });
 
