@@ -67,37 +67,47 @@ router.delete("/:id", auth, async (req, res) => {
 
 router.post("/:postId/comments", auth, async (req, res) => {
   const { postId } = req.params;
-  const { body } = req.body; 
-
+  const { body } = req.body;
 
   let post;
 
   try {
-
-    post = await Post.findById(postId); 
+    post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
 
-   
     const newComment = {
-      body, 
+      body,
       user: req.user,
       createdAt: new Date(),
     };
 
     await post.populate("comments.user");
-  
-    post.comments.push(newComment);
-    await post.save(); // 
 
-  
-    
+    post.comments.push(newComment);
+    await post.save(); //
 
     res.status(201).json(newComment);
   } catch (error) {
     console.error("Error adding comment:", error);
     res.status(500).json({ message: "Failed to add comment" });
+  }
+});
+
+router.get("/:postId/comments", auth, async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId).populate("comments.user");
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    res.status(200).json(post.comments);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ message: "Failed to fetch comments" });
   }
 });
 
