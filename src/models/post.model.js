@@ -7,12 +7,23 @@ const commentSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user", 
+    ref: "user",
     required: true,
   },
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+});
+
+const reactionSchema = new mongoose.Schema({
+  emoji: {
+    type: String,
+    required: true,
+  },
+  count: {
+    type: Number,
+    default: 0,
   },
 });
 
@@ -39,6 +50,7 @@ const postSchema = new mongoose.Schema({
     required: false,
   },
   comments: [commentSchema],
+  reactions: [reactionSchema],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -46,6 +58,10 @@ const postSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now,
+  },
+  relevance: {
+    type: Number,
+    default: 0,
   },
 });
 

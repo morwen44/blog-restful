@@ -44,4 +44,29 @@ async function deleteById(id) {
   return deletedPost;
 }
 
-module.exports = { create, getAll, updateById, deleteById};
+async function getCommentsByPostId(postId) {
+  const post = await Post.findById(postId).populate("comments.user");
+  if (!post) {
+    throw createError(404, "Post not found");
+  }
+  return post.comments;
+}
+
+async function addReaction(postId, emoji) {
+  const post = await Post.findById(postId);
+  if (!post) {
+    throw createError(404, "Post not found");
+  }
+
+  const existingReaction = post.reactions.find(r => r.emoji === emoji);
+  if (existingReaction) {
+    existingReaction.count += 1; 
+  } else {
+    post.reactions.push({ emoji, count: 1 }); 
+  }
+
+  await post.save();
+  return post;
+}
+
+module.exports = { create, getAll, updateById, deleteById, addReaction, getCommentsByPostId };
