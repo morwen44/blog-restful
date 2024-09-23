@@ -86,7 +86,7 @@ router.post("/:postId/comments", auth, async (req, res) => {
     await post.populate("comments.user");
 
     post.comments.push(newComment);
-    await post.save(); //
+    await post.save(); 
 
     res.status(201).json(newComment);
   } catch (error) {
