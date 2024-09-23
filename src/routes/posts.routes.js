@@ -95,7 +95,7 @@ router.post("/:postId/comments", auth, async (req, res) => {
   }
 });
 
-router.get("/:postId/comments", auth, async (req, res) => {
+router.get("/:postId/comments", async (req, res) => {
   const { postId } = req.params;
 
   try {
